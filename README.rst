@@ -11,7 +11,7 @@ panns stands for "Python Approximate Nearest Neighbor Search", which is an optim
 
 .. _approximate k-nearest neighbors: http://en.wikipedia.org/wiki/Nearest_neighbor_search#Approximate_nearest_neighbor
 
-:: code:: python
+.. code:: python
 
 	from panns import *
 
@@ -73,7 +73,7 @@ Quick Start
 
 panns assumes that the dataset is a row-based the matrix (e.g. m x n), where each row represents a data point from an n-dimension feature space. The code snippet below first constructs a 1000 by 100 data matrix, then builds an index of 50 binary trees and saves it to a file.
 
-:: code:: python
+.. code:: python
 
 	from panns import *
 
@@ -94,7 +94,7 @@ Besides using ``add_vector(v)`` function, panns supports multiple ways of loadin
 .. _HDF5: http://www.hdfgroup.org/HDF5/
 
 
-:: code:: python
+.. code:: python
 
 	# datasets can be loaded in the following ways
 	p.load_matrix(A)                     # load a list of row vectors or a numpy matrix
@@ -103,7 +103,7 @@ Besides using ``add_vector(v)`` function, panns supports multiple ways of loadin
 
 The saved index can be loaded and shared among different processes for future use. Therefore, the query performance can be further improved by parallelism. The following code loads the previously generated index file, then performs a simple query. The query returns 10 approximate nearest neighbors.
 
-:: code:: python
+.. code:: python
 
 	from panns import *
 
@@ -115,7 +115,7 @@ The saved index can be loaded and shared among different processes for future us
 
 Usually, building index for a high dimensional dataset can be very time-consuming. panns tries to speed up this process from two perspectives: optimizing the code and taking advantage of the physical resources. If multiple cores are available, parallel building can be easily enabled as follows:
 
-:: code:: python
+.. code:: python
 
 	from panns import *
 
