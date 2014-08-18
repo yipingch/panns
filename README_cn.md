@@ -1,8 +1,9 @@
 panns -- 最邻近搜索
 ==================
 
-
 ![Downloads](https://pypip.in/d/panns/badge.png "Downloads") . ![License](https://pypip.in/license/gensim/badge.png "License")
+
+panns是Python Approximate Nearest Neighbor Search的缩写。panns是一种优化的python库。这个库用于在高维空间中进行[近似最邻近查找](http://en.wikipedia.org/wiki/Nearest_neighbor_search#Approximate_nearest_neighbor)。一种典型应用是在语义网络中对大量文本资料对相关字条进行搜寻。目前，panns支持两种距离度量：欧几里德距离(Eclidean)和余弦距离(cosine)。－对于角的相似性来说，数据集需要标准化。－
 
 panns stands for "Python Approximate Nearest Neighbor Search", which is an optimized python library for searching [approximate k-nearest neighbors](http://en.wikipedia.org/wiki/Nearest_neighbor_search#Approximate_nearest_neighbor) in very high dimensional spaces. E.g. one typical use in semantic web is finding the most relevant documents in a big text corpus. Currently, panns supports two distance metrics: Euclidean and Angular (consine). For angular similarity, the dataset need to be normalized.
 
