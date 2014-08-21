@@ -58,10 +58,8 @@ git clone git@github.com:ryanrhymes/panns.git
 
 
 ## 快速开始
+panns假定数据集是一个基于排的矩阵，在这个矩阵中每一排代表一个n维的数据点。下面的代码就是一个例子：第一部分定义一个100维度的基于欧式距离的索引，第二部分创建一个1000x100的数据集(数据矩阵)，第三部分根据先前创建的数据集生成一个50个二叉树的索引然后将这个索引储存在idx文件中。
 
-panns假设数据集是由一个－基于排的矩阵（比方说， m x n）－，其中每一排代表n维的数据点。下面代码是个例子：第一行代表创建一个由1000乘以100的矩阵，然后创建50个二叉树的索引，最后将这个索引保存在一个文件中。
-
-panns assumes that the dataset is a row-based the matrix (e.g. m x n), where each row represents a data point from an n-dimension feature space. The code snippet below first constructs a 1000 by 100 data matrix, then builds an index of 50 binary trees and saves it to a file.
 
 ```python
 
@@ -80,9 +78,7 @@ p.build(50)
 p.save('test.idx')
 ```
 
-除了使用`add_vector(v)`函数去加载一个数据集，panns还提供其他的方式。对于那些相当大的数据集，[HDF5](http://www.hdfgroup.org/HDF5/)是值得推荐，但是创建的性能会极大的被降低。可是，我们可以通过并行的生成来提高起性能。具体方式列举如下：
-
-Besides using `add_vector(v)` function, panns supports multiple ways of loading a dataset. For those extremely large datasets, [HDF5](http://www.hdfgroup.org/HDF5/) is recommended though the building performance will be significantly degraded. However, the performance can be improved by enabling parallel building as shown later.
+除了使用`add_vector(v)`函数，panns还提供其他多种方式去加载一个数据集。使用[HDF5](http://www.hdfgroup.org/HDF5/)去创建相当大的数据集虽然会极大的降低性能，但是这种方式是指地推荐的，因为我们可以通过并行创建去弥补其损失。具体的逻辑我们后面会解释。
 
 ```python
 # datasets can be loaded in the following ways
@@ -91,9 +87,8 @@ p.load_csv(fname, sep=',')           # load a csv file with specified separator
 p.load_hdf5(fname, dataset='panns')  # load a HDF5 file with specified dataset
 ```
 
-存储的索引可以被未来的多个进程加载和共享。因此，并行性可以提高请求性能。下述代码加载先前生成的索引文件，然后进行一个简单的请求。请求会返回大约10个邻近的节点。
+被存储在文件中的二叉树索引未来可以被多个进程加载或者共享。因为这个办法，对索引的请求可以通过并行性进一步来提高。下面的代码就是个例子，首先加载之前创建的idx文件，然后请求其返回一个大约10最邻近节点。
 
-The saved index can be loaded and shared among different processes for future use. Therefore, the query performance can be further improved by parallelism. The following code loads the previously generated index file, then performs a simple query. The query returns 10 approximate nearest neighbors.
 
 ```python
 
@@ -106,9 +101,8 @@ v = gaussian_vector(100)
 n = p.query(v, 10)
 ```
 
-通常，在高维资料集中创建索引是一个很耗时的过程，panns通过两个方面加速这个过程：优化代码以及充分利用物理资源。在多核的环境中，并行创建更容易达到。代码如下：
+通常，在高维资料集中创建索引是会很耗时，panns通过两个方面加速这个过程：优化代码以及充分利用物理资源。在多核的环境中，并行创建更容易达到。代码如下：
 
-Usually, building index for a high dimensional dataset can be very time-consuming. panns tries to speed up this process from two perspectives: optimizing the code and taking advantage of the physical resources. If multiple cores are available, parallel building can be easily enabled as follows:
 
 ```python
 
@@ -171,10 +165,7 @@ One thing worth pointing out is the evaluation here is far from thorough and com
 
 ## 讨论
 
-任何建议，问题和相关的讨论非常欢迎，您可以在[panns-group](https://groups.google.com/forum/#!forum/panns)提出意见以及找到相关的信息。
-
-Any suggestions, questions and related discussions are warmly welcome. You can post and find relevant information in [panns-group](https://groups.google.com/forum/#!forum/panns) .
-
+我们非常欢迎关于其的任何讨论和建议。在[panns-group](https://groups.google.com/forum/#!forum/panns)，您可以得到更多相关信息。
 
 
 ## 未来工作
@@ -182,7 +173,3 @@ Any suggestions, questions and related discussions are warmly welcome. You can p
 * 在索引文件上实现mmap去提高索引加载速度
 * 用并行性去提高请求性能
 * 从更广泛的角度去评估
-
-* Implement mmap on index file to speed up index loading.
-* Improve query performance by parallelism.
-* Perform more thorough evaluations.
