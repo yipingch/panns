@@ -3,7 +3,7 @@ panns -- 最邻近搜索
 
 ![Downloads](https://pypip.in/d/panns/badge.png "Downloads") . ![License](https://pypip.in/license/gensim/badge.png "License")
 
-panns是Python Approximate Nearest Neighbor Search的简称。panns是一种用于在高维空间中寻求最邻近节点([approximate k-nearest neighbors](http://en.wikipedia.org/wiki/Nearest_neighbor_search#Approximate_nearest_neighbor))的python库。一种比较典型的panns应用是在[语义网络](http://baike.baidu.com/view/157370.htm?fr=aladdin)中对大量文本资料对有关联的字符串进行搜寻。相对其他具有相同功能的库，panns有自己性能上的优势。目前，panns支持两种距离度量：[欧式距离](http://baike.baidu.com/view/1615257.htm?fr=aladdin)和[余弦相似度](http://zh.wikipedia.org/wiki/余弦相似性)。余弦相似度通常用于两个向量的夹角小于90度，因此余弦相似度的值为0到1之间。
+panns是Python Approximate Nearest Neighbor Search的简称。panns是一种用于在高维空间中寻求最邻近节点([approximate k-nearest neighbors](http://en.wikipedia.org/wiki/Nearest_neighbor_search#Approximate_nearest_neighbor))的python库。一种比较典型的panns应用是在[语义网络](http://baike.baidu.com/view/157370.htm?fr=aladdin)中对大量文本资料对有关联的字符串进行搜寻。相对其他具有相同功能的库，panns有自己性能上的优势。目前，panns支持两种距离度量：[欧式距离](http://baike.baidu.com/view/1615257.htm?fr=aladdin)和余弦距离。[余弦相似度](http://zh.wikipedia.org/wiki/余弦相似性)通常用于两个向量的夹角小于90度，因此，数据集需要标准化(值控制在0到1之间)。
 
 
 ```python
@@ -15,40 +15,26 @@ p2 = PannsIndex(metric='euclidean')  # index using Euclidean distance metric
 ...
 ```
 
-从技术层面来说，panns只是我们开发项目中一个很小的模块。我们把它作为一个单独的包放出是因为我们意识到很难找到一种简单的工具能在高维空间中进行高效的K-NN搜索。－高维在这里指的是数据集具有成千上万不同的特性。－这已经超出[k-d树](http://en.wikipedia.org/wiki/K-d_tree)的处理能力。
+panns本来只是我们正在开发项目中一个很小的模块。最开始我们是想能够在高维空间的环境下找到一种简单的工具进行高效的K-NN搜索，比方说，[k-d树](http://en.wikipedia.org/wiki/K-d_tree)。但在这里，高维指的是每个数据集具有成千上万不同的属性，但这已经超过k-d树的处理能力。
 
-Technically, panns is only a small function module in one of our ongoing projects. The reason we release it as a separate package is we realized it is actually very difficult to find an easy-to-use tool which can perform efficient k-NN search with satisfying accuracy in high dimensional space. High dimensionality in this context refers to those datasets having **hundreds of features**, which is already far beyond the capability of standard [k-d tree](http://en.wikipedia.org/wiki/K-d_tree).
-
-panns是由[Liang Wang](http://cs.helsinki.fi/liang.wang) @ Helsinki University开发。若您有任何疑问，请发邮件至`liang.wang[at]helsinki.fi`或者在[panns-group](https://groups.google.com/forum/#!forum/panns)提出您的宝贵意见。
-
-panns is developed by [Liang Wang](http://cs.helsinki.fi/liang.wang) @ Helsinki University. If you have any questions, you can either contact me via email `liang.wang[at]helsinki.fi` or post in [panns-group](https://groups.google.com/forum/#!forum/panns)。－我的联系方式－－
+panns是由[Liang Wang](http://cs.helsinki.fi/liang.wang) @ Helsinki University开发，Yiping Chen维护。若您有任何疑问，请发邮件至`liang.wang[at]helsinki.fi`或者`yiping.chen[at]helsinki.fi`。您还可以在[panns-group](https://groups.google.com/forum/#!forum/panns)提出您的宝贵意见。
 
 
 ## 特征
 
 * 纯python的实现。
-* 对大型高维数据集的优化。(比方说，量大于500的) - 什么是高维数据集 -
+* 对处理大型高维数据集进行优化，比方说，大于500维。
 * 生成很小但有很高搜寻准确率的索引文件。
 * 支持欧几里德(Euclidean)和余弦(cosine)距离度量。
 * 支持并行索引的生成。
 * 极低的内存使用率以及索引可以被多个进程共享。
 * 支持raw，csv和[HDF5](http://www.hdfgroup.org/HDF5/)数据集。
 
-* Pure python implementation.
-* Optimized for large and high-dimension dataset (e.g. > 500).
-* Generate small index file with high query accuracy.
-* Support Euclidean and cosine distance metrics.
-* Support parallel building of indices.
-* Small memory usage and index can be shared among processes.
-* Support raw, csv and [HDF5](http://www.hdfgroup.org/HDF5/) datasets.
-
-
 
 ## 快速安装
 
-在panns中大部分代数运算依赖于[Numpy](http://www.numpy.org/)包和[Scipy](http://www.scipy.org/)包。至于一些涉及到HDF5的运算，依赖的包是[h5py](http://www.h5py.org/)。值得注意的是，在这里HDF5的包是可选的。如果不需要相关的运算，您可以考虑不使用HDF5文件。在使用panns的功能之前，请确保上述包已经成功安装。您可以通过下面的shell命令来安装上述包。
+在panns中大部分科学计算依赖于[Numpy](http://www.numpy.org/)和[Scipy](http://www.scipy.org/)。至于一些涉及到HDF5的运算，依赖的包是[h5py](http://www.h5py.org/)。值得注意的是，在这里HDF5是可选的。如果不需要相关的运算，您可以考虑不使用HDF5文件。在使用panns的功能之前，请确保上述包已经成功安装。您可以通过下面的shell命令来安装上述包。
 
-Algebra operations in panns rely on both [Numpy](http://www.numpy.org/) and [Scipy](http://www.scipy.org/), and HDF5 operations rely on [h5py](http://www.h5py.org/). Note h5py is optional if you do not need operate on HDF5 files. Please make sure you have these packages properly installed before using the full features of panns. The installation can be done by the following shell commands.
 
 ```bash
 sudo pip install numpy --upgrade
@@ -57,7 +43,6 @@ sudo pip install h5py --upgrade
 ```
 在安装完上述包后，您可以开始安装panns。安装panns的过程相当简单，您有两种安装方式可以选择：直接通过PyPI安装，或者下载下载panns的源代码进行手动安装。
 
-The installation of panns is very straightforward. You can either install it directly from PyPI (probably the easiest way), or download the source code then install manually.
 
 ```bash
 sudo pip install panns --upgrade
@@ -65,7 +50,6 @@ sudo pip install panns --upgrade
 
 如果您对panns的源代码有兴趣，请加入我们。您可以从Github下载源代码。
 
-If you are interested in the source code or even want to contribute to make it faster and better, you can clone the code from Github.
 
 ```bash
 git clone git@github.com:ryanrhymes/panns.git
