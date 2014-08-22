@@ -3,7 +3,7 @@ panns -- 最邻近搜索
 
 ![Downloads](https://pypip.in/d/panns/badge.png "Downloads") . ![License](https://pypip.in/license/gensim/badge.png "License")
 
-panns是Python Approximate Nearest Neighbor Search的简称。panns是一种用于在高维空间中寻求最邻近节点([approximate k-nearest neighbors](http://en.wikipedia.org/wiki/Nearest_neighbor_search#Approximate_nearest_neighbor))的python库。一种比较典型的panns应用是在[语义网络](http://baike.baidu.com/view/157370.htm?fr=aladdin)中对大量文本资料对有关联的字符串进行搜寻。相对其他具有相同功能的库，panns有自己性能上的优势。目前，panns支持两种距离度量：[欧式距离](http://baike.baidu.com/view/1615257.htm?fr=aladdin)和余弦距离。[余弦相似度](http://zh.wikipedia.org/wiki/余弦相似性)通常用于两个向量的夹角小于90度，因此，数据集需要标准化(值控制在0到1之间)。
+panns是Python Approximate Nearest Neighbor Search的简称。panns是一种用于在高维空间中寻求最邻近节点([approximate k-nearest neighbors](http://en.wikipedia.org/wiki/Nearest_neighbor_search#Approximate_nearest_neighbor))的python开发包。一种比较典型的panns应用是在[语义网络](http://baike.baidu.com/view/157370.htm?fr=aladdin)中对大量文本资料对有关联的字符串进行搜寻。相对其他具有相同功能的库，panns有自己性能上的优势。目前，panns支持两种距离度量：[欧式距离](http://baike.baidu.com/view/1615257.htm?fr=aladdin)和余弦距离。[余弦相似度](http://zh.wikipedia.org/wiki/余弦相似性)通常用于两个向量的夹角小于90度，因此，数据集需要标准化(值控制在0到1之间)。
 
 
 ```python
@@ -17,7 +17,7 @@ p2 = PannsIndex(metric='euclidean')  # index using Euclidean distance metric
 
 panns本来只是我们正在开发项目中一个很小的模块。最开始我们是想能够在高维空间的环境下找到一种简单的工具进行高效的K-NN搜索，比方说，[k-d树](http://en.wikipedia.org/wiki/K-d_tree)。但在这里，高维指的是每个数据集具有成千上万不同的属性，但这已经超过k-d树的处理能力。
 
-panns是由[Liang Wang](http://cs.helsinki.fi/liang.wang) @ Helsinki University开发，Yiping Chen维护。若您有任何疑问，请发邮件至`liang.wang[at]helsinki.fi`或者`yiping.chen[at]helsinki.fi`。您还可以在[panns-group](https://groups.google.com/forum/#!forum/panns)提出您的宝贵意见。
+panns是由[Liang Wang](http://cs.helsinki.fi/liang.wang) @ Helsinki University开发，Yiping Chen @ Helsinki University维护。若您有任何疑问，请发邮件至`liang.wang[at]helsinki.fi`或者`yiping.chen[at]helsinki.fi`。您还可以在[panns-group](https://groups.google.com/forum/#!forum/panns)提出您的宝贵意见。
 
 
 ## 特征
@@ -31,7 +31,7 @@ panns是由[Liang Wang](http://cs.helsinki.fi/liang.wang) @ Helsinki University�
 * 支持raw，csv和[HDF5](http://www.hdfgroup.org/HDF5/)数据集。
 
 
-## 快速安装
+## 安装
 
 在panns中大部分科学计算依赖于[Numpy](http://www.numpy.org/)和[Scipy](http://www.scipy.org/)。至于一些涉及到HDF5的运算，依赖的包是[h5py](http://www.h5py.org/)。值得注意的是，在这里HDF5是可选的。如果不需要相关的运算，您可以考虑不使用HDF5文件。在使用panns的功能之前，请确保上述包已经成功安装。您可以通过下面的shell命令来安装上述包。
 
@@ -121,46 +121,32 @@ p.build()
 
 ## 原理简述
 
-简单来说，我们通过[random projection](http://en.wikipedia.org/wiki/Locality-sensitive_hashing#Random_projection)来获取k-NN的近似值。索引的创建可以通过生成一个人二叉树来实现。树中的每个节点代表一定数值点，进而通过比较平均值被分成两组(左子树和右子树)。准确率可以通过下面的方法来提高：
-
-Simply put, approximate k-NN in panns is achieved by [random projection](http://en.wikipedia.org/wiki/Locality-sensitive_hashing#Random_projection). The index is built by constructing a binary tree. Each node of the tree represents a scalar-projection of certain data points, which are further divided into two groups (left- and right-child) by comparing to their average. The accuracy can be improved from the following perspective:
+简单来说，我们通过[随机投影](http://en.wikipedia.org/wiki/Locality-sensitive_hashing#Random_projection)来获取k-NN的近似值。索引的创建可以通过生成一个二叉树来实现。树中每个节点代表一些特定数值点的投影，进而通过他们的平均值将其分为左子树和右子树。准确率可以通过下面的方式来提高：
 
 
-* 合理的放置偏离值(e.g. 在示例的平均值)
-* 选择合理的投影向量(随机值或者生成分)
+
+* 合理的选取样本均值的偏移值。
+* 选择合理的投影向量，选择随机值或者成分值(成分值在这里指的是将所有值分成几个特定区间，在每个区间内选择合理的值)
 * 使用更多的投影(但是需要更多的生成时间和更大的索引)
 * 使用更多的二叉树(也要更多的生成时间和更大的索引)
-* Place the offset wisely (e.g. at the sample average).
-* Choose the projection vector wisely (e.g. random or principle components).
-* Use more projections (but longer building time and larger index).
-* Use more binary trees (also longer building time and larger index).
 
-实现近似k-NN值高准确率是以大索引为代价的。panns希望在这两个冲突的值中寻求一个平衡点。与其他的库为每个节点生成一个全新的随机向量不同，panns重复使用不同树中的投影向量。这种办法极大降低索引的大小当维数很高或者数很多的时候。与此同时，重复使用投影向量不会降低准确性(请看评估部分)
-
-The accuracy of approximate k-NN is usually achieved at the price of large index. panns aims to find the good trade-off of these two conflicting factors. Different from other libraries, panns reuses the projection vectors among different trees instead of generating a new random vector for each node. This can significantly reduces the index size when the dimension is high and trees are many. At the same time, reusing the projection vectors will not degrade the accuracy (see Evaluation section below).
-
-
+提高k-NN值的准确率是通过增大索引为代价的。panns希望能在这两个冲突的值中寻求一个平衡点。与其他的库为每个节点生成一个全新的随机向量不同，panns重复使用不同树中的投影向量。这种办法极大降低索引的大小当维数很高或者数很多的时候。与此同时，重复使用投影向量不会降低准确性(具体请看评估部分)
 
 ## 评估
 
-评估部分主要通过比较panns和Annoy. Annoy是用C++开发的，具有和panns一样的功能。它被用于Spotify 推荐系统中。在评估中，我们使用5000 x 200的数据集，命名为5000个 200维数的向量。为了公平比较，Annoy和panns各生成128个二叉树。评估通过两种距离度量(Euclidean和cosine).下述列表总结了实验结果
+在评估部分，我们把panns和[Annoy](https://github.com/spotify/annoy)做了简单的比较。Annoy是和panns具有类似功能的C++开发包，它被应用在Spotify推荐系统中。在评估的过程中，我们使用5000x200的数据集，将其命名为5000个200维度的向量。为了公平起见，Annoy和panns各生成128个二叉树。我们从两种不同的距离度量(Euclidean和cosine)进行比较，评估结果如下：
 
-Evaluation in this section is simply done by comparing against Annoy. Annoy is a C++ implementation of similar functionality as panns, it is used in Spotify recommender system. In the evaluation, we used a 5000 x 200 dataset, namely 5000 200-dimension feature vectors. For fair comparison, both Annoy and panns use 128 binary trees, and evaluation was done with two distance metrics (Euclidean and cosine). The following table summarizes the results. (data type?)
 
 |            | panns (Euclidean) | Annoy (Euclidean) | panns (cosine) | Annoy (cosine) |
 |:----------:|:-----------------:|:-----------------:|:--------------:|:--------------:|
-|  Accuracy  |       69.2%       |       48.8%       |      70.1%     |      50.4%     |
-| Index Size |       5.4 MB      |       20 MB       |     5.4 MB     |      11 MB     |
+|   准确率   |       69.2%       |       48.8%       |      70.1%     |      50.4%     |
+|  索引大小  |       5.4 MB      |       20 MB       |     5.4 MB     |      11 MB     |
 
 
-比较Annoy, panns可以达到更高的准确率采用更小的索引文件。原因已经在原理部分简单描述。一般来说，高准确率是通过放置偏离值在示例的平均值，与此同时，实现更小的索引是通过重复使用投影向量。
+相对于Annoy，对于更小的索引文件panns能达到更高的准确率。其中缘由已经在原理部分简述过。简单来说，实现高准确率是通过选取合理的样本均值的偏离值，以及重复使用投影向量来实现更小的索引。
 
-Compared with Annoy, panns can achieve higher accuracy with much smaller index file. The reason was actually already briefly discussed in "Theory" section. Generally speaking, the higher accuracy is achieved by placing the offset at sample average; while the smaller index is achieved by reusing the projection vectors.
 
 值得注意的是这里的评估远远不够，我们还需要其他方面的评估。
-
-One thing worth pointing out is the evaluation here is far from thorough and comprehensive, other evaluations are highly welcome and we are always ready to link.
-
 
 
 ## 讨论
