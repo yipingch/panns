@@ -3,7 +3,7 @@ panns -- 最邻近搜索
 
 ![Downloads](https://pypip.in/d/panns/badge.png "Downloads") . ![License](https://pypip.in/license/gensim/badge.png "License")
 
-panns是Python Approximate Nearest Neighbor Search的简称。panns是一种用于在高维空间中寻求[最邻近节点](http://en.wikipedia.org/wiki/Nearest_neighbor_search#Approximate_nearest_neighbor)的python开发包。一种比较典型的panns应用是在[语义网络](http://baike.baidu.com/view/157370.htm?fr=aladdin)中对大量文本资料对有关联的字符串进行搜寻。相对其他具有相同功能的库，panns有自己性能上的优势。目前，panns支持两种距离度量：[欧式距离](http://baike.baidu.com/view/1615257.htm?fr=aladdin)和余弦距离。[余弦相似度](http://zh.wikipedia.org/wiki/余弦相似性)通常用于两个向量的夹角小于90度，因此，数据集需要标准化(值控制在0到1之间)。
+panns是Python Approximate Nearest Neighbor Search的简称。panns是一种用于在高维空间中寻求[最邻近节点](http://en.wikipedia.org/wiki/Nearest_neighbor_search#Approximate_nearest_neighbor)的python开发包。一种比较典型的panns应用是在[语义网络](http://baike.baidu.com/view/157370.htm?fr=aladdin)中对大量文本资料对有关联的字符串进行搜寻。相对其他具有相同功能的开发包，panns有自己性能上的优势。目前，panns支持两种距离度量：[欧式距离](http://baike.baidu.com/view/1615257.htm?fr=aladdin)和余弦距离。[余弦相似度](http://zh.wikipedia.org/wiki/余弦相似性)通常用于两个向量的夹角小于90度，因此，数据集需要标准化(值控制在0到1之间)。
 
 
 ```python
@@ -23,7 +23,7 @@ panns是由[Liang Wang](http://cs.helsinki.fi/liang.wang) @ Helsinki University�
 ## 特征
 
 * 纯python的实现。
-* 对处理大型高维数据集进行优化，比方说，大于500维。
+* 对处理大型高维数据集进行优化，比方说，大于500维度。
 * 生成很小但有很高搜寻准确率的索引文件。
 * 支持欧式距离和余弦距离。
 * 支持并行索引的生成。
@@ -41,7 +41,7 @@ sudo pip install numpy --upgrade
 sudo pip install scipy --upgrade
 sudo pip install h5py --upgrade
 ```
-在安装完上述包后，您可以开始安装panns。安装panns的过程相当简单，您有两种安装方式可以选择：直接通过PyPI安装，或者下载下载panns的源代码进行手动安装。
+在安装完上述包后，您可以开始安装panns。安装panns的过程相当简单，您有两种安装方式可以选择：直接通过PyPI安装，或者下载panns的源代码进行手动安装。
 
 
 ```bash
@@ -130,7 +130,7 @@ p.build()
 * 使用更多的投影(但是需要更多的生成时间和更大的索引)
 * 使用更多的二叉树(也要更多的生成时间和更大的索引)
 
-提高k-NN值的准确率是通过增大索引为代价的。panns希望能在这两个冲突的值中寻求一个平衡点。与其他的库为每个节点生成一个全新的随机向量不同，panns重复使用不同树中的投影向量。这种办法极大降低索引的大小当维数很高或者数很多的时候。与此同时，重复使用投影向量不会降低准确性(具体请看评估部分)
+提高k-NN值的准确率是通过增大索引为代价的。panns希望能在这两个冲突的值中寻求一个平衡点。与其他的库为每个节点生成一个全新的随机向量不同，panns重复使用不同树中的投影向量。当维数很高或者数很多的时候,这种办法极大降低索引的大小。与此同时，重复使用投影向量不会降低准确性(具体请看评估部分)
 
 ## 评估
 
