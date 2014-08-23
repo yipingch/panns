@@ -5,23 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
 
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <title>Panns - Python Approximate Nearest Neighbor Search</title>
+    <title>Panns by yipingch</title>
   </head>
 
   <body>
     <header>
       <div class="inner">
         <h1>Panns</h1>
-        <h2>Python Approximate Nearest Neighbor Search in very high dimensional space with optimized indexing.</h2>
-        <a href="https://github.com/ryanrhymes/panns" class="button"><small>View project on</small>GitHub</a>
+        <h2>高维空间下索引优化的解决方案</h2>
+        <a href="https://github.com/yipingch/panns" class="button"><small>View project on</small>GitHub</a>
       </div>
     </header>
 
@@ -29,63 +29,63 @@
       <div class="inner clearfix">
         <section id="main-content">
           <h1>
-<a name="panns----nearest-neighbor-search" class="anchor" href="#panns----nearest-neighbor-search"><span class="octicon octicon-link"></span></a>panns -- Nearest Neighbor Search</h1>
+<a name="panns----%E6%9C%80%E9%82%BB%E8%BF%91%E6%90%9C%E7%B4%A2" class="anchor" href="#panns----%E6%9C%80%E9%82%BB%E8%BF%91%E6%90%9C%E7%B4%A2"><span class="octicon octicon-link"></span></a>panns -- 最邻近搜索</h1>
 
-<p>panns stands for "Python Approximate Nearest Neighbor Search", which is an optimized python library for searching <a href="http://en.wikipedia.org/wiki/Nearest_neighbor_search#Approximate_nearest_neighbor">approximate k-nearest neighbors</a> in very high dimensional spaces. E.g. one typical use in semantic web is finding the most relevant documents in a big text corpus. Currently, panns supports two distance metrics: Euclidean and cosine.</p>
+<p>panns是Python Approximate Nearest Neighbor Search的简称。panns是一种用于在高维空间中寻求<a href="http://en.wikipedia.org/wiki/Nearest_neighbor_search#Approximate_nearest_neighbor">最邻近节点</a>的python开发包。一种比较典型的panns应用是在<a href="http://baike.baidu.com/view/157370.htm?fr=aladdin">语义网络</a>中对大量文本资料对有关联的字符串进行搜寻。相对其他具有相同功能的开发包，panns有自己性能上的优势。目前，panns支持两种距离度量：<a href="http://baike.baidu.com/view/1615257.htm?fr=aladdin">欧式距离</a>和余弦距离。<a href="http://zh.wikipedia.org/wiki/%E4%BD%99%E5%BC%A6%E7%9B%B8%E4%BC%BC%E6%80%A7">余弦相似度</a>通常用于两个向量的夹角小于90度，因此，数据集需要标准化(值控制在0到1之间)。</p>
 
 <div class="highlight highlight-python"><pre>
 <span class="kn">from</span> <span class="nn">panns</span> <span class="kn">import</span> <span class="o">*</span>
 
-<span class="n">p1</span> <span class="o">=</span> <span class="n">PannsIndex</span><span class="p">(</span><span class="s">'angular'</span><span class="p">)</span>    <span class="c"># index using cosine distance metric</span>
-<span class="n">p2</span> <span class="o">=</span> <span class="n">PannsIndex</span><span class="p">(</span><span class="s">'euclidean'</span><span class="p">)</span>  <span class="c"># index using Euclidean distance metric</span>
+<span class="n">p1</span> <span class="o">=</span> <span class="n">PannsIndex</span><span class="p">(</span><span class="n">metric</span><span class="o">=</span><span class="s">'angular'</span><span class="p">)</span>    <span class="c"># index using cosine distance metric</span>
+<span class="n">p2</span> <span class="o">=</span> <span class="n">PannsIndex</span><span class="p">(</span><span class="n">metric</span><span class="o">=</span><span class="s">'euclidean'</span><span class="p">)</span>  <span class="c"># index using Euclidean distance metric</span>
 <span class="o">...</span>
 </pre></div>
 
-<p>Technically, panns is only a small function module in one of our ongoing projects. The reason we release it as a separate package is we realized it is actually very difficult to find an easy-to-use tool which can perform efficient k-NN search with satisfying accuracy in high dimensional space. High dimensionality in this context refers to those datasets having <strong>hundreds of features</strong>, which is already far beyond the capability of standard <a href="http://en.wikipedia.org/wiki/K-d_tree">k-d tree</a>.</p>
+<p>panns本来只是我们正在开发项目中一个很小的模块。最开始我们是想能够在高维空间的环境下找到一种简单的工具进行高效的K-NN搜索，比方说，<a href="http://en.wikipedia.org/wiki/K-d_tree">k-d树</a>。但在这里，高维指的是每个数据集具有成千上万不同的属性，但这已经超过k-d树的处理能力。</p>
 
-<p>panns is developed by <a href="http://cs.helsinki.fi/liang.wang">Liang Wang</a> @ Helsinki University. If you have any questions, you can either contact me via email <code>liang.wang[at]helsinki.fi</code> or post in <a href="https://groups.google.com/forum/#!forum/panns">panns-group</a>.</p>
+<p>panns是由<a href="http://cs.helsinki.fi/liang.wang">Liang Wang</a> @ Helsinki University开发，Yiping Chen @ Helsinki University维护。若您有任何疑问，请发邮件至<code>liang.wang[at]helsinki.fi</code>或者<code>yiping.chen[at]helsinki.fi</code>。您还可以在<a href="https://groups.google.com/forum/#!forum/panns">panns-group</a>提出您的宝贵意见。</p>
 
 <h2>
-<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
+<a name="%E7%89%B9%E5%BE%81" class="anchor" href="#%E7%89%B9%E5%BE%81"><span class="octicon octicon-link"></span></a>特征</h2>
 
 <ul>
-<li>Pure python implementation.</li>
-<li>Optimized for large and high-dimension dataset (e.g. &gt; 500).</li>
-<li>Generate small index file with high query accuracy.</li>
-<li>Support Euclidean and cosine distance metrics.</li>
-<li>Support parallel building of indices.</li>
-<li>Small memory usage and index can be shared among processes.</li>
-<li>Support raw, csv and <a href="http://www.hdfgroup.org/HDF5/">HDF5</a> datasets.</li>
+<li>纯python的实现。</li>
+<li>对处理大型高维数据集进行优化，比方说，大于500维度。</li>
+<li>生成很小但有很高搜寻准确率的索引文件。</li>
+<li>支持欧式距离和余弦距离。</li>
+<li>支持并行索引的生成。</li>
+<li>极低的内存使用率以及索引可以被多个进程共享。</li>
+<li>支持raw，csv和<a href="http://www.hdfgroup.org/HDF5/">HDF5</a>数据集。</li>
 </ul><h2>
-<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+<a name="%E5%AE%89%E8%A3%85" class="anchor" href="#%E5%AE%89%E8%A3%85"><span class="octicon octicon-link"></span></a>安装</h2>
 
-<p>Algebra operations in panns rely on both <a href="http://www.numpy.org/">Numpy</a> and <a href="http://www.scipy.org/">Scipy</a>, and HDF5 operations rely on <a href="http://www.h5py.org/">h5py</a>. Please make sure you have these three packages properly installed before using panns. The installation can be done by the following shell commands.</p>
+<p>在panns中大部分科学计算依赖于<a href="http://www.numpy.org/">Numpy</a>和<a href="http://www.scipy.org/">Scipy</a>。至于一些涉及到HDF5的运算，依赖的包是<a href="http://www.h5py.org/">h5py</a>。值得注意的是，在这里HDF5是可选的。如果不需要相关的运算，您可以考虑不使用HDF5文件。在使用panns的功能之前，请确保上述包已经成功安装。您可以通过下面的shell命令来安装上述包。</p>
 
 <div class="highlight highlight-bash"><pre>sudo pip install numpy --upgrade
 sudo pip install scipy --upgrade
 sudo pip install h5py --upgrade
 </pre></div>
 
-<p>The installation of panns is very straightforward. You can either install it directly from PyPI (probably the easiest way), or download the source code then install manually.</p>
+<p>在安装完上述包后，您可以开始安装panns。安装panns的过程相当简单，您有两种安装方式可以选择：直接通过PyPI安装，或者下载panns的源代码进行手动安装。</p>
 
 <div class="highlight highlight-bash"><pre>sudo pip install panns --upgrade
 </pre></div>
 
-<p>If you are interested in the source code or even want to contribute to make it faster and better, you can clone the code from Github.</p>
+<p>如果您对panns的源代码有兴趣，请加入我们。您可以从Github下载源代码。</p>
 
 <div class="highlight highlight-bash"><pre>git clone git@github.com:ryanrhymes/panns.git
 </pre></div>
 
 <h2>
-<a name="quick-start" class="anchor" href="#quick-start"><span class="octicon octicon-link"></span></a>Quick Start</h2>
+<a name="%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B" class="anchor" href="#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B"><span class="octicon octicon-link"></span></a>快速开始</h2>
 
-<p>panns assumes that the dataset is a row-based the matrix (e.g. m x n), where each row represents a data point from an n-dimension feature space. The code snippet below first constructs a 1000 by 100 data matrix, then builds an index of 50 binary trees and saves it to a file.</p>
+<p>panns假定数据集是一个基于排的矩阵，在这个矩阵中每一排代表一个n维的数据点。下面的代码就是一个例子：第一部分定义一个100维度的基于欧式距离的索引，第二部分创建一个1000x100的数据集(数据矩阵)，第三部分根据先前创建的数据集生成一个50个二叉树的索引，然后将这个索引储存在idx文件中。</p>
 
 <div class="highlight highlight-python"><pre>
 <span class="kn">from</span> <span class="nn">panns</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="c"># create an index of Euclidean distance</span>
-<span class="n">p</span> <span class="o">=</span> <span class="n">PannsIndex</span><span class="p">(</span><span class="s">'euclidean'</span><span class="p">)</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">PannsIndex</span><span class="p">(</span><span class="n">dimension</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s">'euclidean'</span><span class="p">)</span>
 
 <span class="c"># generate a 1000 x 100 dataset</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
@@ -97,7 +97,7 @@ sudo pip install h5py --upgrade
 <span class="n">p</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s">'test.idx'</span><span class="p">)</span>
 </pre></div>
 
-<p>Besides using <code>add_vector(v)</code> function, panns supports multiple ways of loading a dataset. For those extremely large datasets, <a href="http://www.hdfgroup.org/HDF5/">HDF5</a> is recommended though the building performance will be significantly degraded. However, the performance can be improved by enabling parallel building as shown later.</p>
+<p>除了使用<code>add_vector(v)</code>函数，panns还提供其他多种方式去加载一个数据集。使用<a href="http://www.hdfgroup.org/HDF5/">HDF5</a>去创建相当大的数据集虽然会极大的降低性能，但是这种方式是值得推荐的，因为我们可以通过并行创建去弥补其损失。具体的逻辑我们后面会解释。</p>
 
 <div class="highlight highlight-python"><pre><span class="c"># datasets can be loaded in the following ways</span>
 <span class="n">p</span><span class="o">.</span><span class="n">load_matrix</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>                     <span class="c"># load a list of row vectors or a numpy matrix</span>
@@ -105,24 +105,24 @@ sudo pip install h5py --upgrade
 <span class="n">p</span><span class="o">.</span><span class="n">load_hdf5</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">dataset</span><span class="o">=</span><span class="s">'panns'</span><span class="p">)</span>  <span class="c"># load a HDF5 file with specified dataset</span>
 </pre></div>
 
-<p>The saved index can be loaded and shared among different processes for future use. Therefore, the query performance can be further improved by parallelism. The following code loads the previously generated index file, then performs a simple query. The query returns 10 approximate nearest neighbors.</p>
+<p>被存储在文件中的二叉树索引未来可以被多个进程加载或者共享。因为这个办法，对索引的请求可以通过并行进一步来提高。下面的代码就是个例子，首先加载之前创建的idx文件，然后请求其返回一个大约10最邻近节点。</p>
 
 <div class="highlight highlight-python"><pre>
 <span class="kn">from</span> <span class="nn">panns</span> <span class="kn">import</span> <span class="o">*</span>
 
-<span class="n">p</span> <span class="o">=</span> <span class="n">PannsIndex</span><span class="p">(</span><span class="s">'euclidean'</span><span class="p">)</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">PannsIndex</span><span class="p">(</span><span class="n">metric</span><span class="o">=</span><span class="s">'euclidean'</span><span class="p">)</span>
 <span class="n">p</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">'test.idx'</span><span class="p">)</span>
 
 <span class="n">v</span> <span class="o">=</span> <span class="n">gaussian_vector</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
 <span class="n">n</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 </pre></div>
 
-<p>Usually, building index for a high dimensional dataset can be very time-consuming. panns tries to speed up this process from two perspectives: optimizing the code and taking advantage of the physical resources. If multiple cores are available, parallel building can be easily enabled as follows:</p>
+<p>通常，在高维资料集中创建索引是个很耗时的过程，panns通过两个方面加速这个过程：优化代码以及充分利用物理资源。在多核的环境中，并行创建更容易达到。代码如下：</p>
 
 <div class="highlight highlight-python"><pre>
 <span class="kn">from</span> <span class="nn">panns</span> <span class="kn">import</span> <span class="o">*</span>
 
-<span class="n">p</span> <span class="o">=</span> <span class="n">PannsIndex</span><span class="p">(</span><span class="s">'angular'</span><span class="p">)</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">PannsIndex</span><span class="p">(</span><span class="n">metric</span><span class="o">=</span><span class="s">'angular'</span><span class="p">)</span>
 
 <span class="o">....</span>
 
@@ -132,21 +132,21 @@ sudo pip install h5py --upgrade
 </pre></div>
 
 <h2>
-<a name="theory-in-a-nutshell" class="anchor" href="#theory-in-a-nutshell"><span class="octicon octicon-link"></span></a>Theory In a Nutshell</h2>
+<a name="%E5%8E%9F%E7%90%86" class="anchor" href="#%E5%8E%9F%E7%90%86"><span class="octicon octicon-link"></span></a>原理</h2>
 
-<p>Simply put, approximate k-NN in panns is achieved by <a href="http://en.wikipedia.org/wiki/Locality-sensitive_hashing#Random_projection">random projection</a>. The index is built by constructing a binary tree. Each node of the tree represents a scalar-projection of certain data points, which are further divided into two groups (left- and right-child) by comparing to their average. The accuracy can be improved from the following perspective:</p>
+<p>简单来说，我们通过<a href="http://en.wikipedia.org/wiki/Locality-sensitive_hashing#Random_projection">随机投影</a>来获取k-NN的近似值。索引的创建可以通过生成一个二叉树来实现。树中每个节点代表一些特定数值点的投影，进而通过他们的平均值将其分为左子树和右子树。准确率可以通过下面的方式来提高：</p>
 
 <ul>
-<li>Place the offset wisely (e.g. at the sample average).</li>
-<li>Choose the projection vector wisely (e.g. random or principle components).</li>
-<li>Use more projections (but longer building time and larger index).</li>
-<li>Use more binary trees (also longer building time and larger index).</li>
-</ul><p>The accuracy of approximate k-NN is usually achieved at the price of large index. panns aims to find the good trade-off of these two conflicting factors. Different from other libraries, panns reuses the projection vectors among different trees instead of generating a new random vector for each node. This can significantly reduces the index size when the dimension is high and trees are many. At the same time, reusing the projection vectors will not degrade the accuracy (see Evaluation section below).</p>
+<li>合理的选取样本均值的偏移值。</li>
+<li>选择合理的投影向量，选择随机值或者成分值(成分值在这里指的是将所有值分成几个特定区间，在每个区间内选择合理的值)</li>
+<li>使用更多的投影(但是需要更多的生成时间和更大的索引)</li>
+<li>使用更多的二叉树(也要更多的生成时间和更大的索引)</li>
+</ul><p>提高k-NN值的准确率是通过增大索引为代价的。panns希望能在这两个冲突的值中寻求一个平衡点。与其他的库为每个节点生成一个全新的随机向量不同，panns重复使用不同树中的投影向量。当维数很高或者数很多的时候,这种办法极大降低索引的大小。与此同时，重复使用投影向量不会降低准确性(具体请看评估部分)</p>
 
 <h2>
-<a name="evaluation" class="anchor" href="#evaluation"><span class="octicon octicon-link"></span></a>Evaluation</h2>
+<a name="%E8%AF%84%E4%BC%B0" class="anchor" href="#%E8%AF%84%E4%BC%B0"><span class="octicon octicon-link"></span></a>评估</h2>
 
-<p>Evaluation in this section is simply done by comparing against Annoy. Annoy is a C++ implementation of similar functionality as panns, it is used in Spotify recommender system. In the evaluation, we used a 5000 x 200 dataset, namely 5000 200-dimension feature vectors. For fair comparison, both Annoy and panns use 128 binary trees, and evaluation was done with two distance metrics (Euclidean and cosine). The following table summarizes the results.</p>
+<p>在评估部分，我们把panns和<a href="https://github.com/spotify/annoy">Annoy</a>做了简单的比较。Annoy是和panns具有类似功能的C++开发包，它被应用在Spotify推荐系统中。在评估的过程中，我们使用5000x200的数据集，将其命名为5000个200维度的向量。为了公平起见，Annoy和panns各生成128个二叉树。我们从两种不同的距离度量(Euclidean和cosine)进行比较，评估结果如下：</p>
 
 <table>
 <thead><tr>
@@ -158,50 +158,50 @@ sudo pip install h5py --upgrade
 </tr></thead>
 <tbody>
 <tr>
-<td align="center">Accuracy</td>
+<td align="center">准确率</td>
 <td align="center">69.2%</td>
 <td align="center">48.8%</td>
 <td align="center">70.1%</td>
 <td align="center">50.4%</td>
 </tr>
 <tr>
-<td align="center">Index Size</td>
+<td align="center">索引大小</td>
 <td align="center">5.4 MB</td>
 <td align="center">20 MB</td>
 <td align="center">5.4 MB</td>
 <td align="center">11 MB</td>
 </tr>
 </tbody>
-</table><p>Compared with Annoy, panns can achieve higher accuracy with much smaller index file. The reason was actually already briefly discussed in "Theory" section. Generally speaking, the higher accuracy is achieved by placing the offset at sample average; while the smaller index is achieved by reusing the projection vectors.</p>
+</table><p>相对于Annoy，对于更小的索引文件panns能达到更高的准确率。其中缘由已经在原理部分简述过。简单来说，实现高准确率是通过选取合理的样本均值的偏离值，以及重复使用投影向量来实现更小的索引。</p>
 
-<p>One thing worth pointing out is the evaluation here is far from thorough and comprehensive, other evaluations are highly welcome and we are always ready to link.</p>
-
-<h2>
-<a name="discussion" class="anchor" href="#discussion"><span class="octicon octicon-link"></span></a>Discussion</h2>
-
-<p>Any suggestions, questions and related discussions are warmly welcome. You can post and find relevant information in <a href="https://groups.google.com/forum/#!forum/panns">panns-group</a> .</p>
+<p>值得注意的是这里的评估远远不够，我们还需要其他方面的评估。</p>
 
 <h2>
-<a name="future-work" class="anchor" href="#future-work"><span class="octicon octicon-link"></span></a>Future Work</h2>
+<a name="%E8%AE%A8%E8%AE%BA" class="anchor" href="#%E8%AE%A8%E8%AE%BA"><span class="octicon octicon-link"></span></a>讨论</h2>
+
+<p>我们非常欢迎关于其的任何讨论和建议。在<a href="https://groups.google.com/forum/#!forum/panns">panns-group</a>，您可以得到更多相关信息。</p>
+
+<h2>
+<a name="%E6%9C%AA%E6%9D%A5%E5%B7%A5%E4%BD%9C" class="anchor" href="#%E6%9C%AA%E6%9D%A5%E5%B7%A5%E4%BD%9C"><span class="octicon octicon-link"></span></a>未来工作</h2>
 
 <ul>
-<li>Implement mmap on index file to speed up index loading.</li>
-<li>Improve query performance by parallelism.</li>
-<li>Perform more thorough evaluations.</li>
+<li>在索引文件上实现mmap去提高索引加载速度</li>
+<li>用并行性去提高请求性能</li>
+<li>从更广泛的角度去评估</li>
 </ul>
         </section>
 
         <aside id="sidebar">
-          <a href="https://github.com/ryanrhymes/panns/zipball/master" class="button">
+          <a href="https://github.com/yipingch/panns/zipball/master" class="button">
             <small>Download</small>
             .zip file
           </a>
-          <a href="https://github.com/ryanrhymes/panns/tarball/master" class="button">
+          <a href="https://github.com/yipingch/panns/tarball/master" class="button">
             <small>Download</small>
             .tar.gz file
           </a>
 
-          <p class="repo-owner"><a href="https://github.com/ryanrhymes/panns"></a> is maintained by <a href="https://github.com/ryanrhymes">Liang Wang</a>.</p>
+          <p class="repo-owner"><a href="https://github.com/yipingch/panns"></a> is maintained by <a href="https://github.com/yipingch">yipingch</a>.</p>
 
           <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
         </aside>
